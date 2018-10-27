@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const List = ({list}) => 
   <div className="single-list" key={list.id}>
