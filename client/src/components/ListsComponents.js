@@ -8,6 +8,7 @@ export default class ListsComponents extends Component {
     super(props);
     this.state = { lists: [] };
     this.addNewList = this.addNewList.bind(this);
+    this.removeList = this.removeList.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +33,20 @@ export default class ListsComponents extends Component {
       })
       .catch(error =>{
         console.log(error)
+      });
+  }
+
+  removeList(id) {
+    axios.delete(`/api/v1/lists/${id}`)
+      .then(response => {
+        const lists = this.state.lists.filter(
+          list => list.id !== id
+        );
+        this.setState({lists})
       })
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   render() {
@@ -43,7 +57,9 @@ export default class ListsComponents extends Component {
       </div>
         {this.state.lists.map(list => {
           return (
-            <List list={list} key={list.id}/>
+            <List key={list.id}
+                  list={list} 
+                  onRemoveList={this.removeList} />
           );
         })}
       </div>
